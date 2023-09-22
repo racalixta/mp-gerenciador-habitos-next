@@ -1,35 +1,30 @@
-'use client'
-
-import Button from "@/components/Button";
+import { kv } from "@vercel/kv";
 import DayState from "../components/DayState";
 import Image from "next/image";
-import { useRouter } from 'next/navigation'
+import Link from "next/link";
 
-export default function Home() {
-  const router = useRouter();
+export default async function Home() {
 
-  const habits = {
-    'Beber Água': {
-      '2023-09-19': true,
-      '2023-09-20': false,
-      '2023-09-21': true,
-    },
-    'Estudar': {
-      '2023-09-19': false,
-      '2023-09-20': true,
-      '2023-09-21': true,
-    },
-  };
+
+  // const habits = {
+  //   'Beber Água': {
+  //     '2023-09-19': true,
+  //     '2023-09-20': false,
+  //     '2023-09-21': true,
+  //   },
+  //   'Estudar': {
+  //     '2023-09-19': false,
+  //     '2023-09-20': true,
+  //     '2023-09-21': true,
+  //   },
+  // };
+
+  const habits = await kv.hgetall("habits");
 
   const today = new Date();
   const todayWeekDay = today.getDay();
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const sortedWeekDays = weekDays.slice(todayWeekDay + 1).concat(weekDays.slice(0, todayWeekDay + 1));
-
-  const handleNavigateAdd = () => {
-    router.push('/novo-habito');
-
-  }
 
   return (
     <main className="container relative flex flex-col gap-8 px-4 pt-16 text-white text-center md:w-1/2">
@@ -82,9 +77,13 @@ export default function Home() {
       
 
       <div className="fixed flex justify-center bottom-10 left-1/2 -translate-x-1/2 w-full">
-        <Button type="button"  onClick={() => router.push('/novo-habito')}>
+
+        <Link 
+          href="/novo-habito"
+          className="flex justify-center text-center bottom-10 w-2/3 md:w-1/3 font-display font-semibold text-2xl p-2 rounded-md text-neutral-900 bg-[#45EDAD] hover:bg-green-500 hover:text-white"
+        >
           Novo Hábito
-        </Button>
+        </Link>
 
       </div>
 

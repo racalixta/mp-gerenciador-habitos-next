@@ -1,14 +1,20 @@
+import { kv } from "@vercel/kv";
 import Button from '@/components/Button'
 import { InputText } from '@/components/InputText'
 import Link from 'next/link';
 import React from 'react'
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const NewHabit = () => {
   async function newHabit(formData: FormData) {
     "use server";
 
     const habit = formData.get("habit");
-    console.log(habit)
+    await kv.hset("habits", {[habit as string]: {}})
+    
+    revalidatePath("/");
+    redirect("/");
   }
 
   return (
