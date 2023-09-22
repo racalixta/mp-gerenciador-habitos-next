@@ -2,11 +2,24 @@ import React, { ButtonHTMLAttributes, ReactNode } from 'react'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
+  variant?: 'danger';
 }
 
-const Button = ({ children, ...props }: Props) => {
+const Button = ({ children, variant, ...props }: Props) => {
+
+  let variantStyle = '';
+  switch (variant) {
+    case 'danger':
+      variantStyle = 'text-red-400 bg-neutral-800 border-2 border-red-400 hover:bg-red-400 hover:text-white';
+      break;
+  
+    default:
+      variantStyle = 'text-neutral-900 bg-[#45EDAD] hover:bg-green-500 hover:text-white'
+      break;
+  }
+
   return (
-    <button {...props} className='fixed text-center bottom-10 w-2/3 md:w-1/3 left-1/2 -translate-x-1/2 text-neutral-900 bg-[#45EDAD] font-display font-semibold text-wxl p-2 rounded-md hover:bg-green-500 hover:text-white'>
+    <button {...props} className={`flex justify-center text-center bottom-10 w-2/3 md:w-1/3 font-display font-semibold text-2xl p-2 rounded-md ${variantStyle}`}>
       {children}
     </button>
   )

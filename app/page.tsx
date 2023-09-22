@@ -32,7 +32,7 @@ export default function Home() {
   }
 
   return (
-    <main className="container relative flex flex-col gap-8 px-4 pt-16 text-white text-center">
+    <main className="container relative flex flex-col gap-8 px-4 pt-16 text-white text-center md:w-1/2">
       {habits === null || Object.keys(habits).length === 0 && 
       (
         <h1 className="mt-20 text-4xl font-lightfont-display">
@@ -40,48 +40,53 @@ export default function Home() {
         </h1>
       ) }
       
-      {
-        habits != null && Object.entries(habits).map(([habit, habitStreak]) => (
-          <div key={habit} className="flex flex-col gap-2">
-            <section className="flex justify-between items-center">
+      
+    {
+      habits != null && Object.entries(habits).map(([habit, habitStreak]) => (
+        <div key={habit} className="flex flex-col gap-2">
+          <section className="flex justify-between items-center">
 
-              <span className="text-xl font-light font-sans">{habit}</span>
+            <span className="text-xl font-light font-sans">{habit}</span>
 
-              <button>
-                <Image 
-                  src="/images/trash.svg" 
-                  width={20} 
-                  height={20} 
-                  alt="Item de Lixeira" 
-                />
-              </button>
+            <button>
+              <Image 
+                src="/images/trash.svg" 
+                width={20} 
+                height={20} 
+                alt="Item de Lixeira" 
+              />
+            </button>
 
-            </section>
+          </section>
 
-            <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2">
-              {sortedWeekDays.map((day) => (
+          <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2">
+            {sortedWeekDays.map((day) => (
+              
+              <div key={day}  className="flex flex-col last:font-bold last:text-emerald-400">
+                <span className="font-sans text-xs text-cneter">
+                  {day}
+                </span>
                 
-                <div key={day}  className="flex flex-col last:font-bold last:text-emerald-400">
-                  <span className="font-sans text-xs text-cneter">
-                    {day}
-                  </span>
-                  
-                  {/* day state */}
-                  <DayState day={undefined}  />
-                </div>
+                {/* day state */}
+                <DayState day={undefined}  />
+              </div>
 
-              ))}
-            </section>
-            
-            
-            
-          </div>
-        ))
-      }
+            ))}
+          </section>
+          
+          
+          
+        </div>
+      ))
+    }
+      
 
-      <Button type="button"  onClick={() => router.push('/novo-habito')}>
-        Novo Hábito
-      </Button>
+      <div className="fixed flex justify-center bottom-10 left-1/2 -translate-x-1/2 w-full">
+        <Button type="button"  onClick={() => router.push('/novo-habito')}>
+          Novo Hábito
+        </Button>
+
+      </div>
 
     </main>
   )
