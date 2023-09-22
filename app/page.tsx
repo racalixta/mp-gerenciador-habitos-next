@@ -1,7 +1,13 @@
+'use client'
+
+import Button from "@/components/Button";
 import DayState from "../components/DayState";
 import Image from "next/image";
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter();
+
   const habits = {
     'Beber Água': {
       '2023-09-19': true,
@@ -15,7 +21,15 @@ export default function Home() {
     },
   };
 
+  const today = new Date();
+  const todayWeekDay = today.getDay();
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const sortedWeekDays = weekDays.slice(todayWeekDay + 1).concat(weekDays.slice(0, todayWeekDay + 1));
+
+  const handleNavigateAdd = () => {
+    router.push('/novo-habito');
+
+  }
 
   return (
     <main className="container relative flex flex-col gap-8 px-4 pt-16 text-white text-center">
@@ -45,9 +59,9 @@ export default function Home() {
             </section>
 
             <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2">
-              {weekDays.map((day) => (
+              {sortedWeekDays.map((day) => (
                 
-                <div key={day}  className="flex flex-col">
+                <div key={day}  className="flex flex-col last:font-bold last:text-emerald-400">
                   <span className="font-sans text-xs text-cneter">
                     {day}
                   </span>
@@ -58,10 +72,16 @@ export default function Home() {
 
               ))}
             </section>
-
+            
+            
+            
           </div>
         ))
       }
+
+      <Button type="button"  onClick={() => router.push('/novo-habito')}>
+        Novo Hábito
+      </Button>
 
     </main>
   )
