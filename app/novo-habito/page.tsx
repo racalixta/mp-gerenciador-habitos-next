@@ -1,5 +1,5 @@
 import { kv } from "@vercel/kv";
-import Button from '@/components/Button'
+import Button from '@/components/DeleteButton'
 import { InputText } from '@/components/InputText'
 import Link from 'next/link';
 import React from 'react'
