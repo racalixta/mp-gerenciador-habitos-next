@@ -3,28 +3,26 @@ import DayState from "../components/DayState";
 import Image from "next/image";
 import Link from "next/link";
 
+type Habits = {
+  [habit: string] : Record<string, boolean>
+} | null;
+
+
 export default async function Home() {
-
-
-  // const habits = {
-  //   'Beber Água': {
-  //     '2023-09-19': true,
-  //     '2023-09-20': false,
-  //     '2023-09-21': true,
-  //   },
-  //   'Estudar': {
-  //     '2023-09-19': false,
-  //     '2023-09-20': true,
-  //     '2023-09-21': true,
-  //   },
-  // };
-
-  const habits = await kv.hgetall("habits");
+  const habits: Habits = await kv.hgetall("habits");
 
   const today = new Date();
   const todayWeekDay = today.getDay();
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
   const sortedWeekDays = weekDays.slice(todayWeekDay + 1).concat(weekDays.slice(0, todayWeekDay + 1));
+
+  const lastSevenDays = weekDays.map((_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - index);
+
+    return date.toISOString().slice(0, 10);
+  }).reverse();
 
   return (
     <main className="container relative flex flex-col gap-8 px-4 pt-16 text-white text-center md:w-1/2">
@@ -54,20 +52,23 @@ export default async function Home() {
 
           </section>
 
-          <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2">
-            {sortedWeekDays.map((day) => (
-              
-              <div key={day}  className="flex flex-col last:font-bold last:text-emerald-400">
-                <span className="font-sans text-xs text-cneter">
-                  {day}
-                </span>
+          <Link href={`habito/${habit}`}>
+            <section className="grid grid-cols-7 bg-neutral-800 rounded-md p-2">
+              {sortedWeekDays.map((day, index) => (
                 
-                {/* day state */}
-                <DayState day={undefined}  />
-              </div>
+                <div key={day}  className="flex flex-col last:font-bold last:text-emerald-400">
+                  <span className="font-sans text-xs text-cneter">
+                    {day}
+                  </span>
+                  
+                  {/* day state */}
+                  <DayState day={habitStreak[lastSevenDays[index]]}  />
+                </div>
 
-            ))}
-          </section>
+              ))}
+            </section>
+          
+          </Link>
           
           
           
