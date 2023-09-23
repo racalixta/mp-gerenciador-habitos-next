@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import ArrowIcon from './ArrowIcon'
 import DayState from './DayState';
+import { toggleHabit } from '@/app/actions';
 
 function getDaysInMonth(month: number, year: number) {
   const date = new Date(year, month, 1);
@@ -92,7 +93,17 @@ const Calendar = ({ habit, habitStreak }: { habit: string, habitStreak: Record<s
           ))}
 
           {daysInMonth.map((day, index) => (
-            <div key={index} className="flex flex-col items-center p-2">
+            <div 
+              key={index} 
+              className="flex flex-col items-center p-2 cursor-pointer" 
+              onClick={() => toggleHabit({ 
+                  habit, 
+                  habitStreak, 
+                  date: getDayString(day), 
+                  done: habitStreak ? habitStreak[getDayString(day)] : true, 
+                })
+              }
+            >
               <span className="font-sans text-sm md:text-md font-light text-neutral-200">
                 {day?.getDate()}
               </span>
