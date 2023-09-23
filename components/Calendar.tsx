@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import ArrowIcon from './ArrowIcon'
+import DayState from './DayState';
 
 function getDaysInMonth(month: number, year: number) {
   const date = new Date(year, month, 1);
@@ -26,7 +27,7 @@ const currentYear =  currentDate.getFullYear();
 
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-const Calendar = () => {
+const Calendar = ({ habit, habitStreak }: { habit: string, habitStreak: Record<string, boolean> | null }) => {
   const [month, setMonth] = useState(currentMonth);
   const [year, setYear] = useState(currentYear);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -62,6 +63,11 @@ const Calendar = () => {
 
   }
 
+  function getDayString(day: Date) {
+    return`${year.toString()}-${(month + 1).toString().padStart(2, "0")}-${day.getDate().toString().padStart(2, "0")}`;
+
+  }
+
 
   return(
     <section className="2-full rounded-md bg-neutral-800">
@@ -90,6 +96,13 @@ const Calendar = () => {
               <span className="font-sans text-sm md:text-md font-light text-neutral-200">
                 {day?.getDate()}
               </span>
+
+              {
+                day && (
+                  <DayState day={habitStreak ? habitStreak[getDayString(day)] : undefined }/>
+                )
+              }
+
             </div>
           ))}
         </div>

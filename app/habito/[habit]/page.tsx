@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Habit = async ({ params: { habit } }: { params: { habit: string}}) => {
   const decodedHabit = decodeURI(habit);
-  const habitStreak = await kv.hget("habits", decodedHabit);
+  const habitStreak: Record<string, boolean> | null = await kv.hget("habits", decodedHabit);
   
   return (
     <main className="container relative flex flex-col gap-4 px-12 pt-16 text-white  md:w-1/2">
@@ -24,7 +24,7 @@ const Habit = async ({ params: { habit } }: { params: { habit: string}}) => {
         Voltar
       </Link>
 
-      <Calendar />
+      <Calendar habit={decodedHabit} habitStreak={habitStreak} />
 
     </main>
   )
