@@ -28,7 +28,7 @@ const NewHabit = () => {
         <InputText label="Hábito" id="habit" name="habit"  />
 
         <div className="fixed flex flex-col gap-4 items-center bottom-10 left-1/2 -translate-x-1/2 w-full">
-          <Button>Cadastrar</Button>
+          <button className="flex justify-center text-center bottom-10 w-2/3 md:w-1/3 font-display font-semibold text-2xl p-2 rounded-md text-neutral-900 bg-[#45EDAD] hover:bg-green-500 hover:text-white">Cadastrar</button>
 
           <Link 
             href="/" 
